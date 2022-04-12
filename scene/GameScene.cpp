@@ -29,8 +29,8 @@ void GameScene::Initialize() {
 	worldTransform_.rotation_ = {XM_PI / 4.0f, XM_PI / 4.0f, XM_PI / 4.0f};
 
 	worldTransform_.translation_ = {10.0f,10.0f,10.0f};
+	
 	worldTransform_.Initialize();
-
 	viewProjection_.Initialize();
 
 }
@@ -43,7 +43,6 @@ void GameScene::Update() {
 		debugText_->Printf( "translation:(%f,%f,%f)", worldTransform_.translation_.x, worldTransform_.translation_.y,worldTransform_.translation_.z);
 	    debugText_->SetPos(50, 90);
 		debugText_->Printf( "scale:(%f,%f,%f)", worldTransform_.scale_.x, worldTransform_.scale_.y,worldTransform_.scale_.z);
-
 }
 
 void GameScene::Draw() {
