@@ -22,6 +22,11 @@ void GameScene::Initialize() {
 
 
 	model_ = Model::Create();
+	
+	//スケーリング
+	worldTransform_.scale_ = {5.0f, 5.0f, 5.0f};
+
+	worldTransform_.rotation_ = {0.0f, XM_PI / 4.0f, 0.0f};
 
 	worldTransform_.Initialize();
 
@@ -34,7 +39,7 @@ void GameScene::Update() {
 		debugText_->SetPos(50, 70);
 	    debugText_->Printf("year:%d", 2001);
 
-		
+
 	//変数の値をインクリメント
 	    value_++;
 	    std::string strDebug = std::string("Value:") + std::to_string(value_);
