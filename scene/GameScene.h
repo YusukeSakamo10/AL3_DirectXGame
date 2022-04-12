@@ -55,7 +55,12 @@ class GameScene {
 	//テクスチャハンドル
 	uint32_t textureHandle_ = 0;
 
-	//スプライト
-	Sprite* sprite_ = nullptr;
+	
+	//3Dモデル
+	Model* model_ = nullptr;
+
+	WorldTransform worldTransform_;
+
+	ViewProjection viewProjection_;
 
 };
