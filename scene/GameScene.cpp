@@ -19,7 +19,11 @@ void GameScene::Initialize() {
 
 	//ファイル名を指定してテクスチャを読み込む
 	textureHandle_ = TextureManager::Load("mario.jpg");
+	//サウンドデータの読み込み
+	soundDataHandle_ = audio_->LoadWave("se_sad03.wav");
 
+	//音声の再生
+	audio_->PlayWave(soundDataHandle_);
 
 	model_ = Model::Create();
 
