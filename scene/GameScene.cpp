@@ -30,9 +30,16 @@ void GameScene::Initialize() {
 }
 
 void GameScene::Update() { 
-		debugText_->Print("Hello World", 50, 50, 1.0f); 
+		debugText_->Print("Hello World", 50, 30, 1.0f); 
 		debugText_->SetPos(50, 70);
 	    debugText_->Printf("year:%d", 2001);
+
+		
+	//変数の値をインクリメント
+	    value_++;
+	    std::string strDebug = std::string("Value:") + std::to_string(value_);
+		//
+	    debugText_->Print(strDebug, 50, 50, 1.0f);
 }
 
 void GameScene::Draw() {
