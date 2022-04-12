@@ -26,8 +26,9 @@ void GameScene::Initialize() {
 	//スケーリング
 	worldTransform_.scale_ = {5.0f, 5.0f, 5.0f};
 
-	worldTransform_.rotation_ = {0.0f, XM_PI / 4.0f, 0.0f};
+	worldTransform_.rotation_ = {XM_PI / 4.0f, XM_PI / 4.0f, XM_PI / 4.0f};
 
+	worldTransform_.translation_ = {10.0f,10.0f,10.0f};
 	worldTransform_.Initialize();
 
 	viewProjection_.Initialize();
@@ -35,16 +36,14 @@ void GameScene::Initialize() {
 }
 
 void GameScene::Update() { 
-		debugText_->Print("Hello World", 50, 30, 1.0f); 
+
 		debugText_->SetPos(50, 70);
-	    debugText_->Printf("year:%d", 2001);
+	    debugText_->Printf("rotation:(%f,%f,%f)",worldTransform_.rotation_.x,worldTransform_.rotation_.y,worldTransform_.rotation_.z);
+	    debugText_->SetPos(50, 50);
+		debugText_->Printf( "translation:(%f,%f,%f)", worldTransform_.translation_.x, worldTransform_.translation_.y,worldTransform_.translation_.z);
+	    debugText_->SetPos(50, 90);
+		debugText_->Printf( "scale:(%f,%f,%f)", worldTransform_.scale_.x, worldTransform_.scale_.y,worldTransform_.scale_.z);
 
-
-	//変数の値をインクリメント
-	    value_++;
-	    std::string strDebug = std::string("Value:") + std::to_string(value_);
-		//
-	    debugText_->Print(strDebug, 50, 50, 1.0f);
 }
 
 void GameScene::Draw() {

@@ -57,6 +57,7 @@ class GameScene {
 
 	int32_t value_ = 0;
 
+
 	//3Dモデル
 	Model* model_ = nullptr;
 
