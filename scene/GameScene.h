@@ -55,11 +55,8 @@ class GameScene {
 	//テクスチャハンドル
 	uint32_t textureHandle_ = 0;
 
-	//サウンドデータハンドル
-	uint32_t soundDataHandle_ = 0;
-	//音声再生ハンドル
-	uint32_t voiceHandle_ = 0;
 	
+
 	//3Dモデル
 	Model* model_ = nullptr;
 
