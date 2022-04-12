@@ -21,10 +21,9 @@ void GameScene::Initialize() {
 	textureHandle_ = TextureManager::Load("mario.jpg");
 	//サウンドデータの読み込み
 	soundDataHandle_ = audio_->LoadWave("se_sad03.wav");
-
-	//音声の再生
-	audio_->PlayWave(soundDataHandle_);
-
+	//音声再生
+	voiceHandle_ = audio_->PlayWave(soundDataHandle_, true);
+	
 	model_ = Model::Create();
 
 	worldTransform_.Initialize();
@@ -34,6 +33,9 @@ void GameScene::Initialize() {
 }
 
 void GameScene::Update() { 
+	if (input_->TriggerKey(DIK_SPACE)) {
+		audio_->StopWave(voiceHandle_);
+	}
 
 }
 
