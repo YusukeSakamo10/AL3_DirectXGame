@@ -5,6 +5,12 @@
 
 using namespace DirectX;
 
+void SubView2Sight(XMFLOAT3& view_, XMFLOAT3& sight_) { 
+	view_.x += sight_.x;
+	view_.y += sight_.y;
+	view_.z += sight_.z;
+}
+
 GameScene::GameScene() {}
 
 GameScene::~GameScene() { delete model_; }
@@ -50,7 +56,25 @@ void GameScene::Initialize() {
 
 }
 
-void GameScene::Update() {}
+void GameScene::Update() {
+
+	XMFLOAT3 move = {0, 0, 0};
+	const float kEyeSpeed = 0.2f;
+
+	if (input_->PushKey(DIK_W)) {
+		move = {0, 0, kEyeSpeed};
+	} else if ( input_->PushKey(DIK_S)) {
+		move = {0, 0, -kEyeSpeed};
+	}
+
+	SubView2Sight(viewProjection_.eye, move);
+	viewProjection_.UpdateMatrix();
+
+	debugText_->SetPos(50, 50);
+	debugText_->Printf(
+	  "eye:(%f,%f,%f)", viewProjection_.eye.x, viewProjection_.eye.y, viewProjection_.eye.z);
+
+}
 
 void GameScene::Draw() {
 
