@@ -29,6 +29,19 @@ void GameScene::Initialize() {
 	std::uniform_real_distribution<float> rotDist(0.0f, XM_2PI);
 	std::uniform_real_distribution<float> posDist(-10.0f, 10.0f);
 
+	for (size_t i = 0; i < _countof(worldTransform_); i++) {
+		//画像に対する
+		//スケーリング
+		worldTransform_[i].scale_ = {1.0f, 1.0f, 1.0f};
+		//回転
+		worldTransform_[i].rotation_ = {rotDist(engine), rotDist(engine), rotDist(engine)};
+		//平行移動
+		worldTransform_[i].translation_ = {rotDist(engine), rotDist(engine), rotDist(engine)};
+
+		//ワールドトランスフォームの初期化
+		worldTransform_[i].Initialize();
+	}
+
 
 	//ビュープロジェクションの初期化
 	viewProjection_.Initialize();
@@ -63,9 +76,13 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
+	
 	//3Dモデルの描画
-	model_->Draw(worldTransform_,viewProjection_,textureHandle_);
-
+	//複数の場合
+	for (size_t i = 0; i < _countof(worldTransform_); i++) {
+		model_->Draw(worldTransform_[i], viewProjection_, textureHandle_);
+	}
+	
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
