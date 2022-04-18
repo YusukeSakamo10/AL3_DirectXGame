@@ -1,6 +1,7 @@
 ﻿#include "GameScene.h"
 #include "TextureManager.h"
 #include <cassert>
+#include <random>
 
 using namespace DirectX;
 
@@ -22,17 +23,12 @@ void GameScene::Initialize() {
 	//3Dモデルの生成
 	model_ = Model::Create();
 
-	//画像に対する
-	//スケーリング
-	worldTransform_.scale_ = {0.0f, 0.0f, 0.0f};
-	//回転
-	worldTransform_.rotation_ = {0.0f, XM_PI / 4.0f, 0.0f};
-	//平行移動
-	worldTransform_.translation_ = {0.0f, 0.0f, 0.0f};
 
+	std::random_device seed_gen;
+	std::mt19937_64 engine(seed_gen());
+	std::uniform_real_distribution<float> rotDist(0.0f, XM_2PI);
+	std::uniform_real_distribution<float> posDist(-10.0f, 10.0f);
 
-	//ワールドトランスフォームの初期化
-	worldTransform_.Initialize();
 
 	//ビュープロジェクションの初期化
 	viewProjection_.Initialize();

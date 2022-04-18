@@ -60,7 +60,7 @@ class GameScene {
 	
 	//座標
 
-	WorldTransform worldTransform_;
+	WorldTransform worldTransform_[100];
 	ViewProjection viewProjection_;
 
 	
