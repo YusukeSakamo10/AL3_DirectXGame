@@ -38,18 +38,18 @@ void GameScene::Initialize() {
 	for (size_t i = 0; i < _countof(worldTransform_); i++) {
 		//画像に対する
 		//スケーリング
-		worldTransform_[i].scale_ = {1.0f, 1.0f, 1.0f};
+		worldTransform_[i].scale_ ={ 1.0f, 1.0f, 1.0f};
 		//回転
 		worldTransform_[i].rotation_ = {rotDist(engine), rotDist(engine), rotDist(engine)};
 		//平行移動
-		worldTransform_[i].translation_ = {rotDist(engine), rotDist(engine), rotDist(engine)};
+		worldTransform_[i].translation_ = {posDist(engine), posDist(engine), posDist(engine)};
 
 		//ワールドトランスフォームの初期化
 		worldTransform_[i].Initialize();
 	}
 
 	//カメラ視点座標を設定
-	viewProjection_.eye = {0, 0, -10};
+	viewProjection_.eye = {0, 0, -50};
 
 	//注視店
 	viewProjection_.target = { 10,0,0 };
