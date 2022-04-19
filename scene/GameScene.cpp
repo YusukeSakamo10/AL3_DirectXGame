@@ -89,7 +89,8 @@ void GameScene::Update() {
 	}
 
 	SubXMFloat3A4B(viewProjection_.target, move);
-//	viewProjection_.UpdateMatrix();
+	viewProjection_.target.z = 0;
+	viewProjection_.UpdateMatrix();
 
 	//上方向回転処理
 
