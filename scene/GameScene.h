@@ -60,8 +60,9 @@ class GameScene {
 	
 	//座標
 
-	WorldTransform worldTransform_;
+	WorldTransform worldTransform_[100];
 	ViewProjection viewProjection_;
 
-	
+	float viewAngle = 0.0f;
+
 };
