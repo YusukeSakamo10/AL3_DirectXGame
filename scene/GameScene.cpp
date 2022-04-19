@@ -13,7 +13,7 @@ void SubXMFloat3A4B(XMFLOAT3& A_, XMFLOAT3& B_) {
 
 GameScene::GameScene() {}
 
-GameScene::~GameScene() { delete model_; }
+GameScene::~GameScene() {}
 
 void GameScene::Initialize() {
 
@@ -21,6 +21,7 @@ void GameScene::Initialize() {
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
 	debugText_ = DebugText::GetInstance();
+<<<<<<< HEAD
 
 	
 	//画像の読み込み
@@ -60,6 +61,8 @@ void GameScene::Initialize() {
 	//ビュープロジェクションの初期化
 	viewProjection_.Initialize();
 
+=======
+>>>>>>> parent of e0a4130 (基本項目の追加(画像の読み込み、描画3D))
 }
 
 void GameScene::Update() {
@@ -148,6 +151,7 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
+<<<<<<< HEAD
 	
 	//3Dモデルの描画
 	//複数の場合
@@ -155,6 +159,8 @@ void GameScene::Draw() {
 		model_->Draw(worldTransform_[i], viewProjection_, textureHandle_);
 	}
 	
+=======
+>>>>>>> parent of e0a4130 (基本項目の追加(画像の読み込み、描画3D))
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();

@@ -51,6 +51,7 @@ class GameScene {
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
+<<<<<<< HEAD
 
 	//テクスチャハンドル
 	uint32_t textureHandle_ = 0;
@@ -65,4 +66,6 @@ class GameScene {
 
 	float viewAngle = 0.0f;
 
+=======
+>>>>>>> parent of e0a4130 (基本項目の追加(画像の読み込み、描画3D))
 };
