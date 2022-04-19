@@ -48,14 +48,15 @@ void GameScene::Initialize() {
 		worldTransform_[i].Initialize();
 	}
 
-	//カメラ視点座標を設定
-	viewProjection_.eye = {0, 0, -50};
+	viewProjection_.fovAngleY = XMConvertToRadians(45.0f);
 
-	//注視店
-	viewProjection_.target = { 10,0,0 };
+	//アスペクト比
+	viewProjection_.aspectRatio = 1.0f;
 
-	//カメラ上方向ベクトルを設定
-	viewProjection_.up = { cosf(XM_PI / 4.0f), sinf(XM_PI / 4.0f),0.0f };
+	//ニアクリップ
+	viewProjection_.nearZ = 52.0f;
+	//ファークリップ
+	viewProjection_.farZ = 53.0f;
 
 	//ビュープロジェクションの初期化
 	viewProjection_.Initialize();
@@ -64,19 +65,21 @@ void GameScene::Initialize() {
 
 void GameScene::Update() {
 
-	XMFLOAT3 move = {0, 0, 0};
-	const float kEyeSpeed = 0.2f;
+	//XMFLOAT3 move = {0, 0, 0};
+	//const float kEyeSpeed = 0.2f;
 
-	if (input_->PushKey(DIK_W)) {
-		move = {0, 0, kEyeSpeed};
-	} else if ( input_->PushKey(DIK_S)) {
-		move = {0, 0, -kEyeSpeed};
-	}
+	//if (input_->PushKey(DIK_W)) {
+	//	move = {0, 0, kEyeSpeed};
+	//} else if ( input_->PushKey(DIK_S)) {
+	//	move = {0, 0, -kEyeSpeed};
+	//}
 
-	SubXMFloat3A4B(viewProjection_.eye, move);
+	//SubXMFloat3A4B(viewProjection_.eye, move);
 
-	viewProjection_.UpdateMatrix();
+	//viewProjection_.UpdateMatrix();
 
+	//カメラの変更
+	/*
 	//注視店移動
 	const float kTargetSpeed = 0.2f;
 
@@ -105,7 +108,7 @@ void GameScene::Update() {
 
 	//行列再計算
 	viewProjection_.UpdateMatrix();
-
+	
 
 	debugText_->SetPos(50, 50);
 	debugText_->Printf(
@@ -119,6 +122,51 @@ void GameScene::Update() {
 	debugText_->Printf(
 		"up:(%f,%f,%f)", viewProjection_.up.x, viewProjection_.up.y, viewProjection_.up.z);
 
+	*/
+
+
+	//Fov変更処理
+	
+	if (input_->PushKey(DIK_W)) {
+		viewProjection_.fovAngleY += 0.01f;
+		viewProjection_.fovAngleY = min(viewProjection_.fovAngleY, XM_PI);
+	}
+	else if (input_->PushKey(DIK_S)) {
+		viewProjection_.fovAngleY -= 0.01f;
+		viewProjection_.fovAngleY = max(viewProjection_.fovAngleY, 0.01f);
+	}
+	//行列の再計算::下で更新
+//	viewProjection_.UpdateMatrix();
+
+	if (input_->PushKey(DIK_UP)) {
+		viewProjection_.nearZ += 0.1f;
+	}
+	else if (input_->PushKey(DIK_DOWN) && viewProjection_.nearZ > 0.001f) {
+		viewProjection_.nearZ -= 0.1f;
+	}
+
+	viewProjection_.UpdateMatrix();
+
+
+	debugText_->SetPos(50, 110);
+	debugText_->Printf("fovAngleY(Degree):%f", XMConvertToDegrees(viewProjection_.fovAngleY));
+
+	debugText_->SetPos(50, 130);
+	debugText_->Printf("nearZ:%f", viewProjection_.nearZ);
+
+
+
+	debugText_->SetPos(50, 50);
+	debugText_->Printf(
+		"eye:(%f,%f,%f)", viewProjection_.eye.x, viewProjection_.eye.y, viewProjection_.eye.z);
+
+	debugText_->SetPos(50, 70);
+	debugText_->Printf(
+		"target:(%f,%f,%f)", viewProjection_.target.x, viewProjection_.target.y, viewProjection_.target.z);
+
+	debugText_->SetPos(50, 90);
+	debugText_->Printf(
+		"up:(%f,%f,%f)", viewProjection_.up.x, viewProjection_.up.y, viewProjection_.up.z);
 
 }
 
