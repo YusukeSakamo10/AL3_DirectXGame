@@ -5,10 +5,10 @@
 
 using namespace DirectX;
 
-void SubView2Sight(XMFLOAT3& view_, XMFLOAT3& sight_) { 
-	view_.x += sight_.x;
-	view_.y += sight_.y;
-	view_.z += sight_.z;
+void SubXMFloat3A4B(XMFLOAT3& A_, XMFLOAT3& B_) { 
+	A_.x += B_.x;
+	A_.y += B_.y;
+	A_.z += B_.z;
 }
 
 GameScene::GameScene() {}
@@ -51,6 +51,10 @@ void GameScene::Initialize() {
 	//カメラ視点座標を設定
 	viewProjection_.eye = {0, 0, -10};
 
+	//注視店
+	viewProjection_.target = { 10,0,0 };
+
+
 	//ビュープロジェクションの初期化
 	viewProjection_.Initialize();
 
@@ -67,12 +71,32 @@ void GameScene::Update() {
 		move = {0, 0, -kEyeSpeed};
 	}
 
-	SubView2Sight(viewProjection_.eye, move);
+	SubXMFloat3A4B(viewProjection_.eye, move);
+
 	viewProjection_.UpdateMatrix();
+
+	//注視店移動
+	const float kTargetSpeed = 0.2f;
+
+	//押した方向で移動ベクトルを変更
+	if (input_->PushKey(DIK_LEFT)) {
+		move = { -kTargetSpeed, 0,0 };
+	}
+	else if (input_->PushKey(DIK_RIGHT)) {
+		move = { kTargetSpeed, 0,0 };
+	}
+
+	SubXMFloat3A4B(viewProjection_.target, move);
+	viewProjection_.UpdateMatrix();
+
 
 	debugText_->SetPos(50, 50);
 	debugText_->Printf(
 	  "eye:(%f,%f,%f)", viewProjection_.eye.x, viewProjection_.eye.y, viewProjection_.eye.z);
+
+	debugText_->SetPos(50, 70);
+	debugText_->Printf(
+		"target:(%f,%f,%f)", viewProjection_.target.x, viewProjection_.target.y, viewProjection_.target.z);
 
 }
 
