@@ -89,6 +89,21 @@ void GameScene::Update() {
 	}
 
 	SubXMFloat3A4B(viewProjection_.target, move);
+//	viewProjection_.UpdateMatrix();
+
+	//上方向回転処理
+
+	const float kUpRotSpeed = 0.05f;
+
+	if (input_->PushKey(DIK_SPACE)) {
+		viewAngle += kUpRotSpeed;
+		//2πを超えたら0に戻す
+		viewAngle = fmodf(viewAngle, XM_2PI);
+	}
+
+	viewProjection_.up = { cosf(viewAngle), sinf(viewAngle), 0.0f };
+
+	//行列再計算
 	viewProjection_.UpdateMatrix();
 
 
@@ -99,6 +114,11 @@ void GameScene::Update() {
 	debugText_->SetPos(50, 70);
 	debugText_->Printf(
 		"target:(%f,%f,%f)", viewProjection_.target.x, viewProjection_.target.y, viewProjection_.target.z);
+
+	debugText_->SetPos(50, 90);
+	debugText_->Printf(
+		"up:(%f,%f,%f)", viewProjection_.up.x, viewProjection_.up.y, viewProjection_.up.z);
+
 
 }
 
