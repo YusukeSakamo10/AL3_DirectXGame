@@ -6,9 +6,7 @@ using namespace DirectX;
 
 GameScene::GameScene() {}
 
-GameScene::~GameScene() { 
-	delete model_;
-}
+GameScene::~GameScene() { delete model_; }
 
 void GameScene::Initialize() {
 
@@ -19,31 +17,28 @@ void GameScene::Initialize() {
 	//ファイル名を指定してテクスチャを読み込む
 	textureHandle_ = TextureManager::Load("mario.jpg");
 
-	
 	model_ = Model::Create();
 	for (size_t i = 0; i < _countof(worldTransform_); i++) {
-	
+		//移動ようにXM
+		XMFLOAT3 position = {10.0f, 20.0f, 0.0f};
+		int x = (i % 10 - 5);
+		position.x *=x; 
+		if (i > 9) position.y = -20.0f;
 
 		//スケーリング
-		worldTransform_[i].scale_ = {1.0f, 1.0f, 1.0f};
+		worldTransform_[i].scale_ = {5.0f, 5.0f, 5.0f};
 		//回転
-		worldTransform_[i].rotation_ = {0.0f, XM_PI / 4.0f, 0.0f};
+		worldTransform_[i].rotation_ = {0.0f, 0.0f, 0.0f};
 		//平行移動
-		worldTransform_[i].translation_ = {0.0f, 0.0f, 0.0f};
+		worldTransform_[i].translation_ = position;
 
 		//ワールドトランスフォームの初期化
 		worldTransform_[i].Initialize();
-
-		
 	}
 	viewProjection_.Initialize();
-
 }
 
-void GameScene::Update() {
-
-
-}
+void GameScene::Update() {}
 
 void GameScene::Draw() {
 
@@ -57,7 +52,6 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに背景スプライトの描画処理を追加できる
 	/// </summary>
-
 
 	// スプライト描画後処理
 	Sprite::PostDraw();
@@ -86,7 +80,7 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
-\
+
 	// デバッグテキストの描画
 	debugText_->DrawAll(commandList);
 	//
