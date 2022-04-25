@@ -8,46 +8,41 @@ GameScene::GameScene() {}
 
 GameScene::~GameScene() { 
 	delete model_;
-	delete sprite_;
 }
 
 void GameScene::Initialize() {
 
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
-	audio_ = Audio::GetInstance();
 	debugText_ = DebugText::GetInstance();
-
-	soundDataHandle_ = audio_->LoadWave("se_sad03.wav");
-
-	audio_->PlayWave(soundDataHandle_);
 
 	//ファイル名を指定してテクスチャを読み込む
 	textureHandle_ = TextureManager::Load("mario.jpg");
 
-	sprite_ = Sprite::Create(textureHandle_, {100, 50});
-	voiceHandle_ = audio_->PlayWave(soundDataHandle_, true);	
 	
 	model_ = Model::Create();
+	for (size_t i = 0; i < _countof(worldTransform_); i++) {
+	
 
-	worldTransform_.Initialize();
+		//スケーリング
+		worldTransform_[i].scale_ = {1.0f, 1.0f, 1.0f};
+		//回転
+		worldTransform_[i].rotation_ = {0.0f, XM_PI / 4.0f, 0.0f};
+		//平行移動
+		worldTransform_[i].translation_ = {0.0f, 0.0f, 0.0f};
+
+		//ワールドトランスフォームの初期化
+		worldTransform_[i].Initialize();
+
+		
+	}
 	viewProjection_.Initialize();
 
 }
 
-void GameScene::Update() { XMFLOAT2 position = sprite_->GetPosition();
-	position.x += 2.0f;
-	position.y += 1.0f;
-	sprite_->SetPosition(position);
-	if (input_->TriggerKey(DIK_SPACE)) {
-		audio_->StopWave(voiceHandle_);
-	}
+void GameScene::Update() {
 
 
-	debugText_->Print("PressSpace to Stop Sound", 50, 70, 1.0f);
-	value_++;
-	std::string strDebug = std::string("Value:") + std::to_string(value_);
-	debugText_->Print(strDebug, 50, 50, 1.0f);
 }
 
 void GameScene::Draw() {
@@ -77,8 +72,9 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
-	model_->Draw(worldTransform_, viewProjection_, textureHandle_);
-
+	for (size_t i = 0; i < _countof(worldTransform_); i++) {
+		model_->Draw(worldTransform_[i], viewProjection_, textureHandle_);
+	}
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion
@@ -90,8 +86,7 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
-	sprite_->Draw();
-
+\
 	// デバッグテキストの描画
 	debugText_->DrawAll(commandList);
 	//

@@ -45,7 +45,6 @@ class GameScene {
   private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
-	Audio* audio_ = nullptr;
 	DebugText* debugText_ = nullptr;
 
 	/// <summary>
@@ -57,7 +56,6 @@ class GameScene {
 
 	int32_t value_ = 0;
 	
-	Sprite* sprite_ = nullptr;
 
 	uint32_t soundDataHandle_ = 0;
 	uint32_t voiceHandle_ = 0;
@@ -66,7 +64,7 @@ class GameScene {
 	//3Dモデル
 	Model* model_ = nullptr;
 
-	WorldTransform worldTransform_;
+	WorldTransform worldTransform_[10];
 
 	ViewProjection viewProjection_;
 
