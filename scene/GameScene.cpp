@@ -39,7 +39,7 @@ void GameScene::Initialize() {
 
 	//ワールドトランスフォームの初期化
 	worldTransform_[0].Initialize();
-
+#pragma region キャラクター座標
 	//脊椎
 	worldTransform_[PartId::SPINE].translation_ = { 0, 4.5f,0 };
 	worldTransform_[PartId::SPINE].parent_ = &worldTransform_[PartId::ROOT];
@@ -75,6 +75,7 @@ void GameScene::Initialize() {
 	worldTransform_[PartId::LEGR].translation_ = { +5.0f, -4.5f,0 };
 	worldTransform_[PartId::LEGR].parent_ = &worldTransform_[PartId::HIP];
 	worldTransform_[PartId::LEGR].Initialize();
+#pragma endregion キャラクター座標
 
 
 	//ビュープロジェクションの初期化
@@ -95,6 +96,18 @@ void GameScene::Update() {
 	}
 
 	SumXMFloat3(worldTransform_[PartId::ROOT].translation_, move);
+
+
+	const float kChestRotSpeed = 0.05f;
+
+	float ChestRotY = (input_->PushKey(DIK_I) - input_->PushKey(DIK_U)) * kChestRotSpeed;
+	worldTransform_[PartId::CHEST].rotation_.y += ChestRotY;
+
+	const float kHipRotSpeed = 0.05f;
+
+	float HipRotY = (input_->PushKey(DIK_K) - input_->PushKey(DIK_J)) * kHipRotSpeed;
+	worldTransform_[PartId::HIP].rotation_.y += HipRotY;
+
 
 	debugText_->SetPos(50, 150);
 	debugText_->Printf("Root:(%f,%f,%f)",
