@@ -46,7 +46,7 @@ void GameScene::Initialize() {
 	worldTransform_[PartId::SPINE].Initialize();
 
 	//上半身
-	worldTransform_[PartId::CHEST].translation_ = { 0, -4.5f,0 };
+	worldTransform_[PartId::CHEST].translation_ = { 0, 0,0 };
 	worldTransform_[PartId::CHEST].parent_ = &worldTransform_[PartId::SPINE];
 	worldTransform_[PartId::CHEST].Initialize();
 
@@ -54,25 +54,25 @@ void GameScene::Initialize() {
 	worldTransform_[PartId::HEAD].parent_ = &worldTransform_[PartId::CHEST];
 	worldTransform_[PartId::HEAD].Initialize();
 
-	worldTransform_[PartId::ARML].translation_ = { 5.0f, 0,0 };
+	worldTransform_[PartId::ARML].translation_ = { -5.0f, 0,0 };
 	worldTransform_[PartId::ARML].parent_ = &worldTransform_[PartId::CHEST];
 	worldTransform_[PartId::ARML].Initialize();
 
-	worldTransform_[PartId::ARMR].translation_ = { -5.0, 0,0 };
+	worldTransform_[PartId::ARMR].translation_ = { 5.0, 0,0 };
 	worldTransform_[PartId::ARMR].parent_ = &worldTransform_[PartId::CHEST];
 	worldTransform_[PartId::ARMR].Initialize();
 
 	//下半身
 
-	worldTransform_[PartId::HIP].translation_ = { 0, 8.0f,0 };
+	worldTransform_[PartId::HIP].translation_ = { 0, -4.5f,0 };
 	worldTransform_[PartId::HIP].parent_ = &worldTransform_[PartId::SPINE];
 	worldTransform_[PartId::HIP].Initialize();
 
-	worldTransform_[PartId::LEGL].translation_ = { 5.0f, -4.5f,0 };
+	worldTransform_[PartId::LEGL].translation_ = { -5.0f, -4.5f,0 };
 	worldTransform_[PartId::LEGL].parent_ = &worldTransform_[PartId::HIP];
 	worldTransform_[PartId::LEGL].Initialize();
 
-	worldTransform_[PartId::LEGR].translation_ = { -5.0f, -4.5f,0 };
+	worldTransform_[PartId::LEGR].translation_ = { +5.0f, -4.5f,0 };
 	worldTransform_[PartId::LEGR].parent_ = &worldTransform_[PartId::HIP];
 	worldTransform_[PartId::LEGR].Initialize();
 
@@ -137,8 +137,10 @@ void GameScene::Draw() {
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
 	// 3Dモデルの描画
-	model_->Draw(worldTransform_[0], viewProjection_, textureHandle_);
-	for (size_t i = 1; i < _countof(worldTransform_); i++) {
+//	model_->Draw(worldTransform_[0], viewProjection_, textureHandle_);
+//	model_->Draw(worldTransform_[1], viewProjection_, textureHandle_);
+
+	for (size_t i = 2; i < _countof(worldTransform_); i++) {
 		model_->Draw(worldTransform_[i], viewProjection_, textureHandle_);
 	}
 
