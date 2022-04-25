@@ -107,15 +107,16 @@ void GameScene::Update() {
 
 	float HipRotY = (input_->PushKey(DIK_K) - input_->PushKey(DIK_J)) * kHipRotSpeed;
 	worldTransform_[PartId::HIP].rotation_.y += HipRotY;
-
-
+	
 	debugText_->SetPos(50, 150);
 	debugText_->Printf("Root:(%f,%f,%f)",
 		worldTransform_[PartId::ROOT].translation_.x,
 		worldTransform_[PartId::ROOT].translation_.y,
 		worldTransform_[PartId::ROOT].translation_.z
 	);
-
+	debugText_->Print("ArrowKey L & R : Rootを移動", 50, 170);
+	debugText_->Print("U Key , I Key : Rotation on Top", 50, 190);
+	debugText_->Print("J Key , K Key : Rotation on Bottom", 50, 210);
 	worldTransform_[0].UpdateMatrix();
 	//子どもアップデート
 	for (size_t i = 1; i < PartId::PARTIDEND; i++) {
