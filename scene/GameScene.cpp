@@ -4,6 +4,12 @@
 
 using namespace DirectX;
 
+void DegOntheCircle(XMFLOAT3& a, int r, float degree) {
+	float radius = 2 * XM_PI * degree / 360;
+	a.x = r * cos(radius);
+	a.y = r * sin(radius);
+}
+
 GameScene::GameScene() {}
 
 GameScene::~GameScene() { delete model_; }
@@ -19,35 +25,39 @@ void GameScene::Initialize() {
 
 	model_ = Model::Create();
 
-	for (size_t y = 0; y < _countof(worldTransform_); y++) {
+	for (size_t i = 0; i < _countof(worldTransform_); i++) {
 
-		float PosY = 10;
-		PosY -= 3 * y;
-		for (size_t x = 0; x < _countof(worldTransform_); x++) {
-			float PosX = -13;
-			PosX += 3 * x;
-			for (size_t z = 0; z < _countof(worldTransform_); z++) {
-				float PosZ = 0;
-				PosZ += 3 * z;
-				XMFLOAT3 position = { PosX, PosY, PosZ };
-				//スケーリング
-				worldTransform_[y][x][z].scale_ = { 1.0f,1.0f,1.0f };
-				//回転
-				worldTransform_[y][x][z].rotation_ = {0.0f, 0.0f, 0.0f};
-				//平行移動
-				worldTransform_[y][x][z].translation_ = position;
+		XMFLOAT3 position = {0, 0, 0};
+		float radius = 40 * i;
+		DegOntheCircle(position, 10, radius);
 
-				//ワールドトランスフォームの初期化
-				worldTransform_[y][x][z].Initialize();
-			}
+		//スケーリング
+		worldTransform_[i].scale_ = {1.0f, 1.0f, 1.0f};
+		//回転		  i
+		worldTransform_[i].rotation_ = {0.0f, 0.0f, 0.0f};
+		//平行移動		i
+		worldTransform_[i].translation_ = position;
 
-		}
-
+		//ワールドトランスフォームの初期化
+		worldTransform_[i].Initialize();
 	}
 	viewProjection_.Initialize();
 }
 
-void GameScene::Update() {}
+void GameScene::Update() {
+	float deg = 0;
+	deg += 15;
+	for (size_t i = 0; i < _countof(worldTransform_); i++) {
+		
+		float r = 40;
+		float radius =2 * XM_PI * deg / 360;
+		
+		worldTransform_[i].translation_.x = r* cos(radius);
+		worldTransform_[i].translation_.y = r* sin(radius);
+
+		worldTransform_[i].UpdateMatrix();
+	}
+}
 
 void GameScene::Draw() {
 
@@ -75,13 +85,8 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
-	for (size_t y = 0; y < _countof(worldTransform_); y++) {
-		for (size_t x = 0; x< _countof(worldTransform_); x++) {
-			for (size_t z = 0; z < _countof(worldTransform_); z++) {
-
-				model_->Draw(worldTransform_[y][x][z], viewProjection_, textureHandle_);
-			}
-		}
+	for (size_t i = 0; i < _countof(worldTransform_); i++) {
+		model_->Draw(worldTransform_[i], viewProjection_, textureHandle_);
 	}
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
