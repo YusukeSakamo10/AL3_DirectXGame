@@ -18,22 +18,34 @@ void GameScene::Initialize() {
 	textureHandle_ = TextureManager::Load("mario.jpg");
 
 	model_ = Model::Create();
-	for (size_t i = 0; i < _countof(worldTransform_); i++) {
-		//移動ようにXM
-		XMFLOAT3 position = {10.0f, 20.0f, 0.0f};
-		int x = (i % 10 - 5);
-		position.x *=x; 
-		if (i > 9) position.y = -20.0f;
 
-		//スケーリング
-		worldTransform_[i].scale_ = {5.0f, 5.0f, 5.0f};
-		//回転
-		worldTransform_[i].rotation_ = {0.0f, 0.0f, 0.0f};
-		//平行移動
-		worldTransform_[i].translation_ = position;
+	for (size_t y = 0; y < _countof(worldTransform_); y++) {
 
-		//ワールドトランスフォームの初期化
-		worldTransform_[i].Initialize();
+		float PosY = 15;
+		PosY -= 4 * y;
+		for (size_t x = 0; x < _countof(worldTransform_); x++) {
+			float PosX = -15;
+			PosX += 4*x;
+			XMFLOAT3 scale = { 1.0f,1.0f,1.0f };
+			XMFLOAT3 position = { PosX, PosY,0 };
+			bool oddY = y % 2;
+			bool oddX = x % 2;
+			
+			if (oddY == true && oddX == true)scale = { 0,0,0 };
+			
+			//スケーリング
+			worldTransform_[y][x].scale_ = scale;
+			//回転
+			worldTransform_[y][x].rotation_ = {0.0f, 0.0f, 0.0f};
+			//平行移動
+			worldTransform_[y][x].translation_ = position;
+
+			//ワールドトランスフォームの初期化
+			worldTransform_[y][x].Initialize();
+
+
+		}
+
 	}
 	viewProjection_.Initialize();
 }
@@ -66,8 +78,11 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
-	for (size_t i = 0; i < _countof(worldTransform_); i++) {
-		model_->Draw(worldTransform_[i], viewProjection_, textureHandle_);
+	for (size_t y = 0; y < _countof(worldTransform_); y++) {
+		for (size_t x = 0; x< _countof(worldTransform_); x++) {
+
+			model_->Draw(worldTransform_[y][x], viewProjection_, textureHandle_);
+		}
 	}
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
