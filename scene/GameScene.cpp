@@ -21,28 +21,25 @@ void GameScene::Initialize() {
 
 	for (size_t y = 0; y < _countof(worldTransform_); y++) {
 
-		float PosY = 15;
-		PosY -= 4 * y;
+		float PosY = 10;
+		PosY -= 3 * y;
 		for (size_t x = 0; x < _countof(worldTransform_); x++) {
-			float PosX = -15;
-			PosX += 4*x;
-			XMFLOAT3 scale = { 1.0f,1.0f,1.0f };
-			XMFLOAT3 position = { PosX, PosY,0 };
-			bool oddY = y % 2;
-			bool oddX = x % 2;
-			
-			if (oddY == true && oddX == true)scale = { 0,0,0 };
-			
-			//スケーリング
-			worldTransform_[y][x].scale_ = scale;
-			//回転
-			worldTransform_[y][x].rotation_ = {0.0f, 0.0f, 0.0f};
-			//平行移動
-			worldTransform_[y][x].translation_ = position;
+			float PosX = -13;
+			PosX += 3 * x;
+			for (size_t z = 0; z < _countof(worldTransform_); z++) {
+				float PosZ = 0;
+				PosZ += 3 * z;
+				XMFLOAT3 position = { PosX, PosY, PosZ };
+				//スケーリング
+				worldTransform_[y][x][z].scale_ = { 1.0f,1.0f,1.0f };
+				//回転
+				worldTransform_[y][x][z].rotation_ = {0.0f, 0.0f, 0.0f};
+				//平行移動
+				worldTransform_[y][x][z].translation_ = position;
 
-			//ワールドトランスフォームの初期化
-			worldTransform_[y][x].Initialize();
-
+				//ワールドトランスフォームの初期化
+				worldTransform_[y][x][z].Initialize();
+			}
 
 		}
 
@@ -80,8 +77,10 @@ void GameScene::Draw() {
 	/// </summary>
 	for (size_t y = 0; y < _countof(worldTransform_); y++) {
 		for (size_t x = 0; x< _countof(worldTransform_); x++) {
+			for (size_t z = 0; z < _countof(worldTransform_); z++) {
 
-			model_->Draw(worldTransform_[y][x], viewProjection_, textureHandle_);
+				model_->Draw(worldTransform_[y][x][z], viewProjection_, textureHandle_);
+			}
 		}
 	}
 	// 3Dオブジェクト描画後処理
