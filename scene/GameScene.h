@@ -65,7 +65,7 @@ class GameScene {
 	Model* model_ = nullptr;
 
 	WorldTransform worldTransform_[10];
-
 	ViewProjection viewProjection_;
-
+	int length = 10;
+	int Degree[10] = {0};
 };

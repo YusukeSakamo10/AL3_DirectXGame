@@ -4,11 +4,25 @@
 
 using namespace DirectX;
 
-void DegOntheCircle(XMFLOAT3& a, int r, float degree) {
+void SetOntheCircle(XMFLOAT3& a, int length, int degree) {
+	if (degree > 360) degree -= 360;
 	float radius = 2 * XM_PI * degree / 360;
-	a.x = r * cos(radius);
-	a.y = r * sin(radius);
+	a.x = length * cos(radius);
+	a.y = length * sin(radius);
 }
+void SetOntheCircle(XMFLOAT3& a, int length, float radius) {
+	
+	a.x = length * cos(radius);
+	a.y = length * sin(radius);
+}
+
+float Degree2Radius(int degree) {
+	return (XM_PI / 180) * degree;
+}
+int Radius2Degree(float radius) {
+	return radius * 180 / XM_PI;
+}
+
 
 GameScene::GameScene() {}
 
@@ -27,9 +41,9 @@ void GameScene::Initialize() {
 
 	for (size_t i = 0; i < _countof(worldTransform_); i++) {
 
+		Degree[i] = 36 * i;
 		XMFLOAT3 position = {0, 0, 0};
-		float radius = 40 * i;
-		DegOntheCircle(position, 10, radius);
+		SetOntheCircle(position, length, Degree[i]);
 
 		//スケーリング
 		worldTransform_[i].scale_ = {1.0f, 1.0f, 1.0f};
@@ -45,16 +59,19 @@ void GameScene::Initialize() {
 }
 
 void GameScene::Update() {
-	float deg = 0;
-	deg += 15;
-	for (size_t i = 0; i < _countof(worldTransform_); i++) {
-		
-		float r = 40;
-		float radius =2 * XM_PI * deg / 360;
-		
-		worldTransform_[i].translation_.x = r* cos(radius);
-		worldTransform_[i].translation_.y = r* sin(radius);
 
+		static int ChangeDeg = 0;
+		if (ChangeDeg > 360) ChangeDeg = 0;
+		else ChangeDeg += 3;
+
+
+	for (size_t i = 0; i < _countof(worldTransform_); i++) {
+
+
+		XMFLOAT3 position = { 0,0,0 };
+		SetOntheCircle(position, length, Degree[i] + ChangeDeg);
+
+		worldTransform_[i].translation_ = position;
 		worldTransform_[i].UpdateMatrix();
 	}
 }
