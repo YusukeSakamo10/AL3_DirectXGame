@@ -60,7 +60,7 @@ class GameScene {
 	//座標
 
 	WorldTransform worldTransform_;
-	ViewProjection viewProjection_[3];
+	ViewProjection viewProjection_;
 
 	float viewAngle = 0.0f;
 	int CameraNum = 0;
