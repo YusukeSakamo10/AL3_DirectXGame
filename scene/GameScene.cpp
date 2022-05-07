@@ -50,7 +50,7 @@ void GameScene::Initialize() {
 		viewProjection_[i].target = {0, 0, 0};
 
 		//カメラ上方向ベクトルを設定
-		viewProjection_[i].up = {cosf(rotDist(engine)), sinf(XM_PI / 4.0f), 0.0f};
+		viewProjection_[i].up = {0, 1.0f, 0.0f};
 
 		//ビュープロジェクションの初期化
 		viewProjection_[i].Initialize();
@@ -70,8 +70,12 @@ void GameScene::Update() {
 
 	for (size_t i = 0; i < 3; i++) {
 		int debugPosX = 50;
-		int debugPosY = 50 + (60*i);
+		int debugPosY = 50 + (100*i);
 		int debugSpace = 20;
+		debugText_->SetPos(debugPosX, debugPosY);
+		debugText_->Printf("Camera%d", i + 1);
+
+		debugPosY += debugSpace;
 		debugText_->SetPos(debugPosX, debugPosY);
 		debugText_->Printf(
 		  "eye:(%f,%f,%f)", viewProjection_[i].eye.x, viewProjection_[i].eye.y, viewProjection_[i].eye.z);
