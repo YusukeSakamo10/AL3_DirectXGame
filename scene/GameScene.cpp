@@ -20,7 +20,6 @@ void GameScene::Initialize() {
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
 	debugText_ = DebugText::GetInstance();
-
 	//画像の読み込み
 	textureHandle_ = TextureManager::Load("mario.jpg");
 
@@ -60,34 +59,35 @@ void GameScene::Initialize() {
 
 void GameScene::Update() {
 
-
-
-	if (input_->PushKey(DIK_SPACE)) {
-		viewAngle += kUpRotSpeed;
-		// 2πを超えたら0に戻す
-		viewAngle = fmodf(viewAngle, XM_2PI);
+	if (input_->TriggerKey(DIK_SPACE)) {
+		if (CameraNum == 2) {
+			CameraNum = 0;
+		} else
+			CameraNum++;
 	}
 
-	viewProjection_.up = {cosf(viewAngle), sinf(viewAngle), 0.0f};
+	viewProjection_[CameraNum].UpdateMatrix();
 
-	//行列再計算
-	viewProjection_.UpdateMatrix();
+	for (size_t i = 0; i < 3; i++) {
+		int debugPosX = 50;
+		int debugPosY = 50 + (60*i);
+		int debugSpace = 20;
+		debugText_->SetPos(debugPosX, debugPosY);
+		debugText_->Printf(
+		  "eye:(%f,%f,%f)", viewProjection_[i].eye.x, viewProjection_[i].eye.y, viewProjection_[i].eye.z);
 
+		debugPosY += debugSpace;
+		debugText_->SetPos(debugPosX, debugPosY);
+		debugText_->Printf(
+		  "target:(%f,%f,%f)", viewProjection_[i].target.x, viewProjection_[i].target.y,
+		  viewProjection_[i].target.z);
 
-	
-	debugText_->SetPos(50, 50);
-	debugText_->Printf(
-	  "eye:(%f,%f,%f)", viewProjection_.eye.x, viewProjection_.eye.y, viewProjection_.eye.z);
+		debugPosY += debugSpace;
 
-	debugText_->SetPos(50, 70);
-	debugText_->Printf(
-	  "target:(%f,%f,%f)", viewProjection_.target.x, viewProjection_.target.y,
-	  viewProjection_.target.z);
-
-	debugText_->SetPos(50, 90);
-	debugText_->Printf(
-	  "up:(%f,%f,%f)", viewProjection_.up.x, viewProjection_.up.y, viewProjection_.up.z);
-
+		debugText_->SetPos(debugPosX, debugPosY);
+		debugText_->Printf(
+		  "up:(%f,%f,%f)", viewProjection_[i].up.x, viewProjection_[i].up.y, viewProjection_[i].up.z);
+	}
 }
 
 void GameScene::Draw() {
@@ -120,7 +120,6 @@ void GameScene::Draw() {
 	// 3Dモデルの描画
 
 	model_->Draw(worldTransform_, viewProjection_[CameraNum], textureHandle_);
-	
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
