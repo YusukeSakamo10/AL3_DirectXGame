@@ -29,7 +29,7 @@ void GameScene::Initialize() {
 	std::random_device seed_gen;
 	std::mt19937_64 engine(seed_gen());
 	std::uniform_real_distribution<float> rotDist(0.0f, XM_2PI);
-	std::uniform_real_distribution<float> posDist(-10.0f, 10.0f);
+	std::uniform_real_distribution<float> posDist(-2.0f, 10.0f);
 
 	//画像に対する
 	//スケーリング
