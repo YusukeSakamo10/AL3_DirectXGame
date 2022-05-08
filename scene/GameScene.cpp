@@ -29,7 +29,7 @@ void GameScene::Initialize() {
 	std::random_device seed_gen;
 	std::mt19937_64 engine(seed_gen());
 	std::uniform_real_distribution<float> rotDist(0.0f, XM_2PI);
-	std::uniform_real_distribution<float> posDist(-2.0f, 10.0f);
+	std::uniform_real_distribution<float> posDist(-10.0f, 10.0f);
 
 	//画像に対する
 	//スケーリング
@@ -42,44 +42,49 @@ void GameScene::Initialize() {
 	//ワールドトランスフォームの初期化
 	worldTransform_.Initialize();
 
-		//カメラ視点座標を設定
-		viewProjection_.eye = {0,0, -10};
+	//カメラ視点座標を設定
+	viewProjection_.eye = {0, 0, -10};
 
-		//注視店
-		viewProjection_.target = {0, 0, 0};
+	//注視店
+	viewProjection_.target = {0, 0, 0};
 
-		//カメラ上方向ベクトルを設定
-		viewProjection_.up = {0, 1.0f, 0.0f};
+	//カメラ上方向ベクトルを設定
+	viewProjection_.up = {0, 1.0f, 0.0f};
 
-		//ビュープロジェクションの初期化
-		viewProjection_.Initialize();
-	
+	//ビュープロジェクションの初期化
+	viewProjection_.Initialize();
 }
 
 void GameScene::Update() {
-
+	
+	viewAngle += 0.1f;
+	if (viewAngle > 10.0f) {
+		viewAngle -= 0.1f;
+	}
+	
+	viewProjection_.eye.x += 0.1f;
+	viewProjection_.eye.z += 0.1f;
 
 	viewProjection_.UpdateMatrix();
 
-		int debugPosX = 50;
-		int debugPosY = 50;
-		int debugSpace = 20;
-		debugText_->SetPos(debugPosX, debugPosY);
-		debugText_->Printf(
-		  "eye:(%f,%f,%f)", viewProjection_.eye.x, viewProjection_.eye.y, viewProjection_.eye.z);
+	int debugPosX = 50;
+	int debugPosY = 50;
+	int debugSpace = 20;
+	debugText_->SetPos(debugPosX, debugPosY);
+	debugText_->Printf(
+	  "eye:(%f,%f,%f)", viewProjection_.eye.x, viewProjection_.eye.y, viewProjection_.eye.z);
 
-		debugPosY += debugSpace;
-		debugText_->SetPos(debugPosX, debugPosY);
-		debugText_->Printf(
-		  "target:(%f,%f,%f)", viewProjection_.target.x, viewProjection_.target.y,
-		  viewProjection_.target.z);
+	debugPosY += debugSpace;
+	debugText_->SetPos(debugPosX, debugPosY);
+	debugText_->Printf(
+	  "target:(%f,%f,%f)", viewProjection_.target.x, viewProjection_.target.y,
+	  viewProjection_.target.z);
 
-		debugPosY += debugSpace;
+	debugPosY += debugSpace;
 
-		debugText_->SetPos(debugPosX, debugPosY);
-		debugText_->Printf(
-		  "up:(%f,%f,%f)", viewProjection_.up.x, viewProjection_.up.y, viewProjection_.up.z);
-	
+	debugText_->SetPos(debugPosX, debugPosY);
+	debugText_->Printf(
+	  "up:(%f,%f,%f)", viewProjection_.up.x, viewProjection_.up.y, viewProjection_.up.z);
 }
 
 void GameScene::Draw() {
