@@ -10,6 +10,7 @@ void SubXMFloat3A4B(XMFLOAT3& A_, XMFLOAT3& B_) {
 	A_.y += B_.y;
 	A_.z += B_.z;
 }
+#define DEGREE_RADIAN(deg)  (XM_PI * (deg)/180.0f)
 
 GameScene::GameScene() {}
 
@@ -57,13 +58,13 @@ void GameScene::Initialize() {
 
 void GameScene::Update() {
 	
-	viewAngle += 0.1f;
-	if (viewAngle > 10.0f) {
-		viewAngle -= 0.1f;
-	}
-	
-	viewProjection_.eye.x += 0.1f;
-	viewProjection_.eye.z += 0.1f;
+	static int Degree = 0;
+	Degree += 1;
+	if (Degree >= 360) Degree = 0;
+	int AngleLength = 10;
+	float Radian = DEGREE_RADIAN(Degree);
+	//viewProjection_.eye.x = sin(Radian) * AngleLength;
+	//viewProjection_.eye.z = cos(Radian) * AngleLength;
 
 	viewProjection_.UpdateMatrix();
 
