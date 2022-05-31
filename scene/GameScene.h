@@ -45,6 +45,7 @@ class GameScene {
   private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
+	Audio* audio_ = nullptr;
 	DebugText* debugText_ = nullptr;
 
 	/// <summary>
@@ -62,5 +63,5 @@ class GameScene {
 	WorldTransform worldTransform_;
 	ViewProjection viewProjection_;
 
-	float viewAngle = 0.0f;
+	
 };
